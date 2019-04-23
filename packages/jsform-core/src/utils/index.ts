@@ -1,25 +1,4 @@
 /**
- * 判断是否是生产环境
- */
-export const isProd = (() => {
-	const {NODE_ENV} = process.env;
-
-	return typeof NODE_ENV !== "undefined" && NODE_ENV === `"production"`;
-})();
-
-/**
- * 警告方法
- * @param   {string} message 消息内容
- * @returns {Error}
- */
-export const warn = (message: string) => {
-	if (!isProd) {
-		console.error(message);
-	}
-	throw new Error(message);
-};
-
-/**
  * 暴露hasOwnProperty方法
  */
 export const hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -94,7 +73,7 @@ export const isArray = (n: any): boolean => {
  * @param   {string[]} indexList  当前传递过来的indexList
  * @returns {string[]}
  */
-export const mergeKeys = (originKeys: string[], indexList: number[]): string[] => {
+export const mergeKeys = (originKeys: string[], indexList: number[] = []): string[] => {
 	const arrayLevelCopy = [...indexList];
 	const keys = originKeys.reverse().map((key: string) => {
 		if (key === "-") {

@@ -1,8 +1,10 @@
+import invariant from "invariant";
+
 import {UiSchema} from "../models/uischema";
 import {schemaFieldFactory, schemaKeysFactory} from "../factory";
 import {getDataKeys, getSchemaId} from "./resolve";
 import {FxJsonSchema} from "../models/jsonschema";
-import {warn, isProd} from "../utils";
+// import {warn, isProd} from "../utils";
 
 /**
 * 根据给出的parentKeys和uiSchemaKeys来获取uiSchema的key
@@ -26,10 +28,12 @@ const getUiSchemaKeyRecursion = (uiSchemaKeys: string[], parentSchemaPath: strin
         const keysStr: string = parentKeysWithDef.join("/").replace(/\/$/, "");
 
         if (!schemaKeysFactory.has(keysStr)) {
-            if (!isProd) {
-                // console.log(schemaFieldFactory, schemaKeysFactory);
-                warn(`${keysStr} did not found.`);
-            }
+            // if (!isProd) {
+            //     // console.log(schemaFieldFactory, schemaKeysFactory);
+            //     warn(`${keysStr} did not found.`);
+            // }
+
+            invariant(false, `${keysStr} did not found.`);
 
             return "";
         }
@@ -93,10 +97,12 @@ const getCurrentSchemaKey = (parent: UiSchema | undefined, schemaPath: string, u
  */
 const mergeUiSchemaToArray = (uiSchema: UiSchema): UiSchema => {
     if (!schemaKeysFactory.has(uiSchema.key)) {
-        if (!isProd) {
-            console.log(schemaKeysFactory);
-            warn(`${uiSchema.key} did not found. do you forget to resolve schema first.`);
-        }
+        // if (!isProd) {
+        //     console.log(schemaKeysFactory);
+        //     warn(`${uiSchema.key} did not found. do you forget to resolve schema first.`);
+        // }
+
+        invariant(false, `${uiSchema.key} did not found. do you forget to resolve schema first.`);
 
         return uiSchema;
     }
@@ -188,10 +194,12 @@ const initMergeSchema = (parent: UiSchema | undefined, schemaPath: string, uiSch
 
     // 如果存在多个*，则报错
     if (uiSchemas.lastIndexOf("*") !== idx) {
-        if (!isProd) {
-            // throw new Error("uiSchema can only has one *.");
-            warn("uiSchema can only has one *.");
-        }
+        // if (!isProd) {
+        //     // throw new Error("uiSchema can only has one *.");
+        //     warn("uiSchema can only has one *.");
+        // }
+
+        invariant(false, "uiSchema can only has one *.");
 
         return [];
     }
@@ -260,7 +268,7 @@ const initMergeSchema = (parent: UiSchema | undefined, schemaPath: string, uiSch
  * @param parent     {UiSchema}                   父scehma
  * @param uiSchemas  {Array<UiSchema | string>}   需要合并的uiSchemas
  */
-export const merge =  (schemaPath: string, parent?: UiSchema, uiSchemas?: Array<UiSchema | string>): UiSchema[] => {
+export const merge = (schemaPath: string, parent?: UiSchema, uiSchemas?: Array<UiSchema | string>): UiSchema[] => {
     uiSchemas = uiSchemas || ["*"];
 
     // 获取schemaPath对应的schemaId
@@ -268,9 +276,11 @@ export const merge =  (schemaPath: string, parent?: UiSchema, uiSchemas?: Array<
 
     // 如果keyPath还没有解析，则报错
     if (!schemaKeysFactory.has(keyPath)) {
-        if (!isProd) {
-            warn(`${keyPath} not exist or ${keyPath} did not resolve yet.`);
-        }
+        // if (!isProd) {
+        //     warn(`${keyPath} not exist or ${keyPath} did not resolve yet.`);
+        // }
+
+        invariant(false, `${keyPath} not exist or ${keyPath} did not resolve yet.`);
 
         return [];
     }

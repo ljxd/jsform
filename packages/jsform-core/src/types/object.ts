@@ -1,7 +1,8 @@
 import {JSONSchema6} from "json-schema";
+import invariant from "invariant"
 
 import {resolve, getDataKeys} from "../libs/resolve";
-import {warn, isProd} from "../utils";
+// import {warn, isProd} from "../utils";
 
 const pro = "properties";
 
@@ -18,9 +19,12 @@ export default (schemaKey: string, schema: JSONSchema6) => {
     if (properties && !$ref) {
         Object.keys(properties).forEach((key: string) => {
             if ([pro, "items"].indexOf(key) >= 0) {
-                if (!isProd) {
-                    warn(`${key}can not be key words.`);
-                }
+                // if (!isProd) {
+                //     warn(`${key}can not be key words.`);
+                // }
+
+                invariant(false, `${key}can not be key words.`);
+
                 return;
             }
 

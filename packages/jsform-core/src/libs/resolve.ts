@@ -1,7 +1,9 @@
 import {JSONSchema6} from "json-schema";
+import invariant from "invariant";
 
 import {schemaTypeFactory} from "../factory";
-import {warn, isProd} from "../utils";
+// import {warn, isProd} from "../utils";
+// import invariant from "invariant";
 
 /**
 * 解析path成成数据的路径
@@ -57,10 +59,13 @@ export const getSchemaId = (schemaKey: string): string => {
     const regexp = /#$/g;
 
     if (!keys.length) {
-        if (!isProd) {
-            warn(`${schemaKey} not a valid schemaPath.`);
-            // throw new Error(`${schemaKey} not a valid schemaPath.`);
-        }
+        // if (!isProd) {
+        //     warn(`${schemaKey} not a valid schemaPath.`);
+        //     // throw new Error(`${schemaKey} not a valid schemaPath.`);
+        // }
+
+        invariant(false, `${schemaKey} not a valid schemaPath.`);
+
         return "";
     }
 
@@ -81,10 +86,13 @@ const initSchema = (schema: JSONSchema6): JSONSchema6 => {
 
     // 如果没有$id, 同时没有$ref的情况下直接报错
     if (!$id && !schema.$ref) {
-        if (!isProd) {
-            // throw new Error(`id is required.`);
-            warn("id is required");
-        }
+        // if (!isProd) {
+        //     // throw new Error(`id is required.`);
+        //     warn("id is required");
+        // }
+
+        invariant(false, "id is required");
+
         return schema;
     }
 
@@ -110,10 +118,13 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
 
     // 这里只解析type为字符串的结构，不支持数组类型的type
     if (schema.type.constructor !== String) {
-        if (!isProd) {
-            warn(`schema type[${schema.type}] can only be string.`);
-            // throw new Error(`schema type[${schema.type}] can only be string.`);
-        }
+        // if (!isProd) {
+        //     warn(`schema type[${schema.type}] can only be string.`);
+        //     // throw new Error(`schema type[${schema.type}] can only be string.`);
+        // }
+
+        invariant(`schema type[${schema.type}] can only be string.`);
+
         return schemaGenera;
     }
 
@@ -127,7 +138,7 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
     return schemaGenera;
 }
 
-export const resolve =  (schema: JSONSchema6, $id = "") => {
+export const resolve = (schema: JSONSchema6, $id = "") => {
     let schemaGenera = schema;
 
     // 验证schema的完整性
@@ -138,84 +149,3 @@ export const resolve =  (schema: JSONSchema6, $id = "") => {
     // 生成map
     return compileSchema($id || schema.$ref || "", schemaGenera);
 }
-
-// /**
-//  * 解析schema中的字段，缓存到【schemaFieldFactory】中
-//  * 1. 验证schema的合法性
-//  * 2. 提取成map
-//  */
-// export default class ResolveLib {
-//     public mergeSchema: JSONSchema6 = {};
-
-//     /**
-//      * 构造函数
-//      * @param {Ajv}     ajv    当前的ajv实例
-//      * @param {schema}  schema 当前的schema
-//      * @param {String}  $id    schema的id
-//      */
-//     constructor(schema: JSONSchema6, readonly $id = "") {
-//         // 验证schema的完整性
-//         if (!$id) {
-//             this.initSchema(schema);
-//         }
-//         // 生成map
-//         this.compileSchema(schema, $id || schema.$ref || "");
-//     }
-
-//     /**
-//      * 初始化schema
-//      * 1. 判断$id，如果不存在，报错
-//      * 2. 验证schema的结构是否正确，不正确报错
-//      * 3. 若果ajv中不存在schema，则添加进ajv
-//      * @param {Ajv}          ajv     ajv的实例
-//      * @param {JSONSchema6}  schema  schema
-//      */
-//     private initSchema(schema: JSONSchema6): JSONSchema6 {
-//         let $id: string | undefined = schema.$id;
-
-//         // 如果没有$id, 同时没有$ref的情况下直接报错
-//         if (!$id && !schema.$ref) {
-//             if (!isProd) {
-//                 // throw new Error(`id is required.`);
-//                 warn("id is required");
-//             }
-//             return schema;
-//         }
-
-//         return schema;
-//     }
-
-//     /**
-//      * 遍历schema，生成map
-//      * 1. 如果schema.type不是string，报错
-//      * 2. 调用【schemaTypeFactory
-//      * @param {JSONSchema6} schema  schema
-//      * @param {String}      $id     id
-//      */
-//     private compileSchema(schema: JSONSchema6, $id: string): void {
-//         schema = schemaTypeFactory.get("undefined")(schema, $id || (schema.$id || "") + "#");
-
-//         this.mergeSchema = schema;
-
-//         // 如果不存在type，则直接返回
-//         if (!schema.type || schema.$ref) {
-//             return;
-//         }
-
-//         // 这里只解析type为字符串的结构，不支持数组类型的type
-//         if (schema.type.constructor !== String) {
-//             if (!isProd) {
-//                 warn(`schema type[${schema.type}] can only be string.`);
-//                 // throw new Error(`schema type[${schema.type}] can only be string.`);
-//             }
-//             return;
-//         }
-
-//         const type: string = schema.type.toString();
-
-//         // 这里调用相对应的type的方法，来解析schema
-//         if (schemaTypeFactory.has(type)) {
-//             this.mergeSchema = schemaTypeFactory.get(type)(schema, $id || (schema.$id || "") + "#");
-//         }
-//     }
-// }

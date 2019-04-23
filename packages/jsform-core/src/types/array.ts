@@ -1,6 +1,6 @@
 import {JSONSchema6} from "json-schema";
 
-import { resolve, getDataKeys} from "../libs/resolve";
+import {resolve, getDataKeys} from "../libs/resolve";
 
 const itemsName = "items";
 

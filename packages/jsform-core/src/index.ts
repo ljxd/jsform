@@ -4,7 +4,7 @@ import { schemaFieldFactory, schemaKeyWordFactory, schemaTypeFactory, schemaKeys
 
 export * from "./models";
 export * from "./libs";
-export { typeOf, isArray, isNumber} from "./utils";
+export { typeOf, isArray, isNumber, mergeKeys } from "./utils";
 
 schemaKeyWordFactory.add("definitions", definitions)
                     .add("oneof", oneof)

@@ -1,8 +1,9 @@
-import { JSONSchema6 } from "json-schema";
+import {JSONSchema6} from "json-schema";
+import invariant from "invariant";
 
-import { getDataKeys, getSchemaId } from "../libs/resolve";
-import { warn, isProd } from "../utils";
-import { schemaFieldFactory } from "../factory";
+import {getDataKeys, getSchemaId} from "../libs/resolve";
+// import { warn, isProd } from "../utils";
+import {schemaFieldFactory} from "../factory";
 
 /**
  * 解析schema中的关键字 ref
@@ -44,9 +45,11 @@ export default ($id: string, schema: JSONSchema6) => {
             return schemaAjv;
         }
 
-        if (!isProd) {
-            warn(`${refName} not exist.`);
-        }
+        // if (!isProd) {
+        //     warn(`${refName} not exist.`);
+        // }
+
+        invariant(false, `${refName} not exist.`);
     }
 
     return schema;
