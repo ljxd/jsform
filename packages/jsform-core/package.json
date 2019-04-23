@@ -13,7 +13,7 @@
         "prod": "NODE_ENV=production webpack --config=webpack/webpack.prod.config.js",
         "build": "npm run prod;npm run dev;npm run tsdoc;",
         "tree": "tree -L 3 -I  'node_modules'",
-        "tsdoc":"typedoc"
+        "tsdoc": "typedoc --out docz src"
     },
     "author": "",
     "license": "ISC",
@@ -37,6 +37,7 @@
         "karma-webpack": "^3.0.0",
         "mocha": "^6.1.4",
         "ts-loader": "^5.4.3",
+        "typedoc": "^0.14.2",
         "uglifyjs-webpack-plugin": "^2.1.2"
     },
     "dependencies": {
