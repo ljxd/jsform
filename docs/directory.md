@@ -1,4 +1,5 @@
 ### 一.  整体外框目录
+
 ├── docs                      // 相关文档
 │   └── directory.md              // 整体目录结构
 ├── lerna.json                //lerna 配置文件
@@ -11,6 +12,7 @@
     ├── jsform-react-theme-antd   //antd样式库
     ├── jsform-utils			  //工具库
     └── jsform-validate 		  //校验库
+    
 ---- 
 ###  二. 主包内容介绍
  >  1.  jsform-core : 核心库 ，jsonshema 解析工具库，是对对象的操作
