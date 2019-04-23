@@ -1,12 +1,11 @@
 ### 一.  整体外框目录
 
 ``` js
-├── docs                      // 相关文档
+├── docs                          // 相关文档
 │   └── directory.md              // 整体目录结构
-├── lerna.json                //lerna 配置文件
-├── package-lock.json
+├── lerna.json                    //lerna 配置文件
 ├── package.json  
-└── packages 				  //主包内容
+└── packages 				      //主包内容
     ├── jsform-core				  //核心库
     ├── jsform-data				  //数据处理库
     ├── jsform-react			  //react表单生成库
