@@ -90,28 +90,45 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Field<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="../classes/_libs_factory_.basefactory.html" class="tsd-signature-type">BaseFactory</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_models_jsonschema_.fxjsonschema.html" class="tsd-signature-type">FxJsonSchema</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new BaseFactory&lt;FxJsonSchema&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/3d3a350/packages/jsform-core/src/factory/factory.ts#L24">factory/factory.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/6edff2f/packages/jsform-core/src/factory/factory.ts#L40">factory/factory.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>存放解析后的schema
-								{
-								&quot;test1#&quot;: {
-								$id: &quot;test1&quot;,
-								type: &quot;object&quot;,
-								title: &quot;测试的schema&quot;,
-								properties:{
-								a: {
-								type: &quot;number&quot;
-								}
-								}
-								}
-								},
-								&quot;test1#/properties/a&quot;: {
-								type: &quot;number&quot;
-							}</p>
+							<p>存放解析后的schema</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>interface</dt>
+							<dd><p>(BaseFactory<FxJsonSchema>)</p>
+								<pre><code class="language-js"><span class="hljs-comment">//存储格式如下：</span>
+{
+   <span class="hljs-string">'test1#'</span>:
+   {
+       <span class="hljs-string">'$id'</span>: <span class="hljs-string">'test1'</span>,
+           <span class="hljs-attr">type</span>: <span class="hljs-string">'number'</span>,
+               <span class="hljs-attr">title</span>: <span class="hljs-string">'测试的schema'</span>,
+                   <span class="hljs-attr">keys</span>: [],
+                       <span class="hljs-attr">schemaPath</span>: <span class="hljs-string">'test1#'</span>
+   },
+   <span class="hljs-string">'test2#'</span>:
+   {
+       <span class="hljs-string">'$id'</span>: <span class="hljs-string">'test2'</span>,
+           <span class="hljs-attr">type</span>: <span class="hljs-string">'string'</span>,
+               <span class="hljs-attr">title</span>: <span class="hljs-string">'测试的schema'</span>,
+                   <span class="hljs-attr">keys</span>: [],
+                       <span class="hljs-attr">schemaPath</span>: <span class="hljs-string">'test2#'</span>
+   },
+   <span class="hljs-string">'test#'</span>:
+   {
+       <span class="hljs-string">'$id'</span>: <span class="hljs-string">'test'</span>,
+           <span class="hljs-attr">title</span>: <span class="hljs-string">'测试anyOf的schema'</span>,
+               <span class="hljs-attr">anyOf</span>: [<span class="hljs-built_in">Array</span>],
+                   <span class="hljs-attr">keys</span>: [],
+                       <span class="hljs-attr">schemaPath</span>: <span class="hljs-string">'test#'</span>
+   }
+}</code></pre>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
@@ -120,12 +137,28 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Key<wbr>Word<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="../classes/_libs_factory_.basefactory.html" class="tsd-signature-type">BaseFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new BaseFactory&lt;($id: string, schema: JSONSchema6) &#x3D;&gt; JSONSchema6&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/3d3a350/packages/jsform-core/src/factory/factory.ts#L28">factory/factory.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/6edff2f/packages/jsform-core/src/factory/factory.ts#L62">factory/factory.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>存放关键字的工厂</p>
+							<p>关键字工厂</p>
+							<pre><code class="language-js"><span class="hljs-comment">//存储格式如下：</span>
+{
+ <span class="hljs-string">"test1#"</span>: {
+     <span class="hljs-string">"$id"</span>: <span class="hljs-string">"test1"</span>,
+     <span class="hljs-string">"type"</span>: <span class="hljs-string">"object"</span>,
+     <span class="hljs-string">"title"</span>: <span class="hljs-string">"测试的schema"</span>,
+     <span class="hljs-string">"properties"</span>:{
+          <span class="hljs-string">"a"</span>: {
+             <span class="hljs-string">"type"</span>: <span class="hljs-string">"number"</span>
+          }
+     }
+ }
+},
+<span class="hljs-string">"test1#/properties/a"</span>: {
+   <span class="hljs-string">"type"</span>: <span class="hljs-string">"number"</span>
+}</code></pre>
 						</div>
 					</div>
 				</section>
@@ -135,7 +168,7 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Keys<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="../classes/_libs_factory_.basefactory.html" class="tsd-signature-type">BaseFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new BaseFactory&lt;string&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/3d3a350/packages/jsform-core/src/factory/factory.ts#L36">factory/factory.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/6edff2f/packages/jsform-core/src/factory/factory.ts#L71">factory/factory.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -150,12 +183,12 @@
 					<div class="tsd-signature tsd-kind-icon">schema<wbr>Type<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="../classes/_libs_factory_.basefactory.html" class="tsd-signature-type">BaseFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new BaseFactory&lt;($id: string, schema: JSONSchema6) &#x3D;&gt; JSONSchema6&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/3d3a350/packages/jsform-core/src/factory/factory.ts#L32">factory/factory.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/ljxd/jsform/blob/6edff2f/packages/jsform-core/src/factory/factory.ts#L66">factory/factory.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>存放类型的工厂</p>
+							<p>类型工厂</p>
 						</div>
 					</div>
 				</section>

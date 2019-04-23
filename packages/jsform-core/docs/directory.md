@@ -11,7 +11,7 @@
 │   ├── factory      // 工厂
 │   ├── index.ts    
 │   ├── keywords     // 关键字解析
-│   ├── libs         // TODO
+│   ├── libs         // 类库
 │   ├── models       // TODO
 │   ├── types        // 类型解析
 │   └── utils        // 工具方法
@@ -35,7 +35,7 @@
 - ref
 
 > 3. libs：TODO
-- factory
+- factory 工厂类库
 - merge
 - resolve
 - tree
