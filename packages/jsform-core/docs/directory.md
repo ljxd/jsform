@@ -38,7 +38,7 @@
 - factory 工厂类库
 - merge
 - resolve
-- tree
+- tree 树类库
 
 > 4. models：TODO
 - jsonschema
