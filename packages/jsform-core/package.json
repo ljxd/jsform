@@ -11,8 +11,9 @@
         "test": "npm run dev && mocha ./tests/**/*.spec.js --require babel-register --reporter=list",
         "dev": "NODE_ENV=development webpack --config=webpack/webpack.dev.config.js",
         "prod": "NODE_ENV=production webpack --config=webpack/webpack.prod.config.js",
-        "build": "npm run prod;npm run dev;",
-        "tree": "tree -L 3 -I  'node_modules'"
+        "build": "npm run prod;npm run dev;npm run tsdoc;",
+        "tree": "tree -L 3 -I  'node_modules'",
+        "tsdoc":"typedoc --out docz ./src"
     },
     "author": "",
     "license": "ISC",

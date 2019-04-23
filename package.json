@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tree": "tree -L 2 -I  'node_modules'"
+    "test": "lerna run test",
+    "tree": "tree -L 2 -I  'node_modules'",
+    "jsdoc": "lerna run tsdoc"
   },
   "author": "",
   "license": "ISC",

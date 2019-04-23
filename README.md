@@ -1,5 +1,9 @@
 # jsform
 
+## 全局安装包
+
+- jsdoc ```sudo npm run typedoc -g```
+
 ## 通用规范
 
 > 注释
