@@ -1,7 +1,7 @@
-import {JSONSchema6} from "json-schema";
+import { JSONSchema6 } from "json-schema";
 import invariant from "invariant";
 
-import {schemaTypeFactory} from "../factory";
+import { schemaTypeFactory } from "../factory";
 // import {warn, isProd} from "../utils";
 // import invariant from "invariant";
 
@@ -59,13 +59,7 @@ export const getSchemaId = (schemaKey: string): string => {
     const regexp = /#$/g;
 
     if (!keys.length) {
-        // if (!isProd) {
-        //     warn(`${schemaKey} not a valid schemaPath.`);
-        //     // throw new Error(`${schemaKey} not a valid schemaPath.`);
-        // }
-
         invariant(false, `${schemaKey} not a valid schemaPath.`);
-
         return "";
     }
 

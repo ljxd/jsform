@@ -1,6 +1,6 @@
-import {JSONSchema6, JSONSchema6Definition} from "json-schema";
+import { JSONSchema6, JSONSchema6Definition } from "json-schema";
 
-import {resolve, getSchemaId} from "../libs/resolve";
+import { resolve, getSchemaId } from "../libs/resolve";
 // import MergeLib from "../libs/merge";
 
 /**
@@ -13,9 +13,10 @@ import {resolve, getSchemaId} from "../libs/resolve";
 export default ($id: string, schema: JSONSchema6): JSONSchema6 => {
     let anyOf = schema.anyOf;
 
-    if (anyOf && anyOf.constructor === Array) {
+    if (anyOf && anyOf.constructor !== Array) {
         schema.anyOf = anyOf.map((schemaOfOne: JSONSchema6Definition) => {
-            return resolve(schemaOfOne as JSONSchema6, schema.$id || getSchemaId(schema.$ref || "") ? undefined : getSchemaId($id));
+            const id = schema.$id || getSchemaId(schema.$ref || "") ? undefined : getSchemaId($id);
+            return resolve(schemaOfOne as JSONSchema6, id);
         });
     }
 
