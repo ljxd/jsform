@@ -6,13 +6,14 @@
   "scripts": {
     "test": "lerna run test",
     "tree": "tree -L 2 -I  'node_modules'",
-    "jsdoc": "lerna run tsdoc"
+    "tsdoc": "lerna run tsdoc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "invariant": "^2.2.4",
     "lerna": "^3.13.3",
+    "tsdoc": "0.0.4",
     "typescript": "^3.4.4"
   },
   "devDependencies": {
