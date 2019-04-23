@@ -1,10 +1,10 @@
-import { assert, expect } from "chai";
+import { expect } from "chai";
 import { isArray, isNumber, mergeKeys, typeOf } from "../../dist/index.dev";
 
 describe("工具方法测试用例", () => {
     it("isArray", () => {
-		expect(isArray).to.be.a("function");
-		
+        expect(isArray).to.be.a("function");
+
         expect(isArray([])).eq(true);
         expect(isArray()).eq(false);
         expect(isArray([ 1, 2, 3 ])).eq(true);
