@@ -33,12 +33,7 @@ export class TreeMap {
             return this;
         }
 
-        keys = [...keys];
-
-        // 创建所有路径的节点
-        while (keys.length) {
-            const key: Tsn = keys.shift() as Tsn;
-
+        for (const key of keys) {
             child = curNode.contains(key);
 
             // 如果是数字的话，则说明是数组，key改成`-`
