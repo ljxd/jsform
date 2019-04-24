@@ -51,6 +51,15 @@ module.exports = (config) => {
                             loader: "istanbul-instrumenter-loader"
                         }
                     }
+                ],
+                rules: [
+                    {
+                        test: /\.js$/,
+                        include: path.resolve("out/"),
+                        use: {
+                            loader: "istanbul-instrumenter-loader"
+                        }
+                    }
                 ]
             }
         },

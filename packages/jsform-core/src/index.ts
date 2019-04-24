@@ -1,5 +1,5 @@
 import { ref, oneof, anyof, definitions } from "./keywords";
-import { array, none, object } from "./types";
+import { array, normal, object } from "./types";
 import { schemaFieldFactory, schemaKeyWordFactory, schemaTypeFactory, schemaKeysFactory } from "./factory";
 
 export * from "./models";
@@ -12,13 +12,13 @@ schemaKeyWordFactory.add("definitions", definitions)
                     .add("ref", ref);
 
 schemaTypeFactory.add("array", array)
-                .add("string", none)
-                .add("undefined", none)
-                .add("number", none)
-                .add("null", none)
-                .add("any", none)
-                .add("integer", none)
-                .add("boolean", none)
+                .add("normal", normal)
+                // .add("undefined", none)
+                // .add("number", none)
+                // .add("null", none)
+                // .add("any", none)
+                // .add("integer", none)
+                // .add("boolean", none)
                 .add("object", object);
 
 export {

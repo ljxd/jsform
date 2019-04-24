@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { isArray, isNumber, mergeKeys, typeOf } from "../../dist/index.dev";
+import { isArray, isNumber, mergeKeys, typeOf } from "../../out/utils/index";
 
 describe("工具方法测试用例", () => {
     it("isArray", () => {
@@ -22,9 +22,33 @@ describe("工具方法测试用例", () => {
         expect(typeOf(true)).eq("boolean");
         expect(typeOf(1)).eq("number");
         expect(typeOf({})).eq("object");
+        expect(typeOf(new Date())).eq("date");
         expect(typeOf([])).eq("array");
         expect(typeOf(null)).eq("null");
+        expect(typeOf(function() {})).eq("function");
+        expect(typeOf(/\D/gi)).eq("regexp");
         expect(typeOf(undefined)).eq("undefined");
+
+        expect(
+            typeOf({
+                nodeType: 3,
+                nodeValue: ""
+            })
+        ).eq("whitespace");
+        expect(
+            typeOf({
+                nodeType: 3,
+                nodeValue: "dd"
+            })
+        ).eq("textnode");
+
+        expect(
+            typeOf({
+                nodeType: 5
+            })
+        ).eq("element");
+
+        expect(typeOf(new Map())).eq("unknow");
     });
 
     it("isNumber", () => {

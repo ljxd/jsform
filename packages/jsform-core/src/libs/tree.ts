@@ -1,4 +1,4 @@
-import { isNumber } from "../utils";
+import {isNumber} from "../utils";
 
 export type Tsn = string | number;
 
@@ -17,7 +17,7 @@ export class TreeMap {
       * @param   {TreeMap} parent 当前节点的父亲节点
       * @returns {Void}
       */
-    constructor(private key: string, public value: any, public readonly parent?: TreeMap) { }
+    constructor(private key: string, public value: any, public readonly parent?: TreeMap) {}
 
     /**
     * 添加一个子元素
@@ -52,9 +52,9 @@ export class TreeMap {
             curNode = child;
         }
 
-        if (child) {
-            child.value = value;
-        }
+        // if (child) {
+        (child as TreeMap).value = value;
+        // }
 
         return child as TreeMap;
     }
@@ -100,7 +100,7 @@ export class TreeMap {
             return index;
         }
 
-        const { children } = this.parent;
+        const {children} = this.parent;
 
         for (let i = 0, n = children.length; i < n; i++) {
             const child = children[i];
@@ -184,11 +184,13 @@ export class TreeMap {
     * time complexity = O(n) / Linear
     */
     public removeFromParent(): void {
-        let index = this.getIndexInParent();
+        const index = this.getIndexInParent();
 
-        if (this.parent) {
-            this.parent.children.splice(index, 1);
+        if (!this.parent) {
+            return;
         }
+
+        this.parent.children.splice(index, 1);
     }
 
     /**
@@ -229,14 +231,16 @@ export class TreeMap {
             this.value = clearFunc(this);
         }
 
-        if (!this.children) {
-            return;
-        }
+        // if (!this.children.length) {
+        //     return;
+        // }
 
         for (let i = 0, n = this.children.length; i < n; i++) {
-            if (this.children[i]) {
-                this.children[i].value = clearFunc(this.children[i]);
-                this.children[i].forEach(clearFunc);
+            let child = this.children[i];
+
+            if (child) {
+                child.value = clearFunc(child);
+                child.forEach(clearFunc);
             }
         }
     }

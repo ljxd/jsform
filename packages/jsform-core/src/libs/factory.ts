@@ -103,12 +103,10 @@ export class BaseFactory<T> {
         }
 
         for (const key in this.store) {
-            if (this.has(key)) {
-                const element = this.store[key];
+            const element = this.store[key];
 
-                if (func(key, element) === false) {
-                    break;
-                }
+            if (func(key, element) === false) {
+                break;
             }
         }
     }

@@ -8,12 +8,14 @@
         "test": "tests"
     },
     "scripts": {
-        "test": "npm run dev & mocha ./tests/**/*.spec.js --require babel-register --reporter=list --watch",
+        "test": "mocha ./tests/**/*.spec.js --require babel-register --watch",
         "dev": "NODE_ENV=development webpack --config=webpack/webpack.dev.config.js --watch",
         "prod": "NODE_ENV=production webpack --config=webpack/webpack.prod.config.js",
         "build": "npm run prod;npm run dev;npm run tsdoc;",
         "tree": "tree -L 3 -I  'node_modules'",
-        "tsdoc": "typedoc --out docz src"
+        "out": "tsc -d -w --outDir out",
+        "tsdoc": "typedoc --out docz src",
+        "karma": "karma start karma.conf.js"
     },
     "author": "",
     "license": "ISC",
