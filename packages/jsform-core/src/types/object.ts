@@ -1,7 +1,7 @@
-import {JSONSchema6} from "json-schema";
+import { JSONSchema6 } from "json-schema";
 import invariant from "invariant"
 
-import {resolve, getDataKeys} from "../libs/resolve";
+import { resolve, getDataKeysBySchemaKeys } from "../libs/resolve";
 // import {warn, isProd} from "../utils";
 
 const pro = "properties";
@@ -14,7 +14,7 @@ const pro = "properties";
  * @return {JSONSchema6}           返回处理过后的schema
  */
 export default (schemaKey: string, schema: JSONSchema6) => {
-    const {properties, required = [], $ref} = schema;
+    const { properties, required = [], $ref } = schema;
 
     if (properties && !$ref) {
         Object.keys(properties).forEach((key: string) => {
@@ -37,7 +37,7 @@ export default (schemaKey: string, schema: JSONSchema6) => {
             });
 
             const mergeSchema = resolve(properties[key] as JSONSchema6, [schemaKey, pro, key].join("/")),
-                keys: string[] = getDataKeys([schemaKey, pro, key].join("/"));
+                keys: string[] = getDataKeysBySchemaKeys([schemaKey, pro, key].join("/"));
 
             Object.assign(mergeSchema, {
                 keys
