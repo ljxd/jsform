@@ -1,4 +1,4 @@
-import { isNumber } from "../utils";
+import {isNumber} from "../utils";
 
 export type Tsn = string | number;
 
@@ -35,7 +35,7 @@ export class TreeMap {
             return this;
         }
 
-        keys = [ ...keys ];
+        keys = [...keys];
 
         // 创建所有路径的节点
         while (keys.length) {
@@ -93,7 +93,7 @@ export class TreeMap {
             keys = keys.concat(this.parent.getCurrentKeys());
         }
 
-        return keys.concat([ this.key ]);
+        return keys.concat([this.key]);
     }
 
     /**
@@ -102,19 +102,24 @@ export class TreeMap {
    * @returns {number}
    */
     public getIndexInParent(): number {
-        if (this.parent) {
-            let children = this.parent.children;
+        let index = -1;
 
-            for (let i = 0, n = children.length; i < n; i++) {
-                let child = children[i];
+        if (!this.parent) {
+            return index;
+        }
 
-                if (child && child === this) {
-                    return i;
-                }
+        const {children} = this.parent;
+
+        for (let i = 0, n = children.length; i < n; i++) {
+            const child = children[i];
+
+            if (child && child === this) {
+                index = i;
+                break;
             }
         }
 
-        return -1;
+        return index;
     }
 
     /**
@@ -126,19 +131,19 @@ export class TreeMap {
     public contains(key: Tsn): TreeMap | null {
         // 如果是数字的话，直接返回children中对应下标的元素
         if (isNumber(key)) {
-            if (this.children.length > key) {
-                let child = this.children[key as number];
-
-                if (!child) {
-                    this.children[key as number] = new TreeMap("-", null, this);
-
-                    child = this.children[key as number];
-                }
-
-                return child;
+            if (this.children.length <= key) {
+                return null;
             }
 
-            return null;
+            let child = this.children[key as number];
+
+            if (!child) {
+                this.children[key as number] = new TreeMap("-", null, this);
+
+                child = this.children[key as number];
+            }
+
+            return child;
         }
 
         // 如果当前节点的key===要搜索的key，则返回本身
@@ -152,7 +157,7 @@ export class TreeMap {
         }
         // 遍历子节点，层层递归，直到找到
         for (let i = 0; i < this.children.length; i++) {
-            let child = this.children[i];
+            const child = this.children[i];
 
             if (child && child.contains(key)) {
                 return child;
@@ -171,26 +176,41 @@ export class TreeMap {
     public containPath(keys: Array<Tsn>): TreeMap | null {
         let node: TreeMap | null = this;
 
-        keys.forEach((key: Tsn) => {
-            if (!node) {
-                return null;
-            }
+        // if (!node) {
+        //     return node;
+        // }
+
+        for (const key of keys) {
             node = node.contains(key);
 
             if (!node) {
-                return null;
+                break;
             }
-
-            return null;
-        });
+        }
 
         return node;
+
+        // // TODO 代码优化
+        // keys.forEach((key: Tsn) => {
+        //     if (!node) {
+        //         return null;
+        //     }
+        //     node = node.contains(key);
+
+        //     if (!node) {
+        //         return null;
+        //     }
+
+        //     return null;
+        // });
+
+        // return node;
     }
 
     /**
-   * 从父亲节点中删除当前节点
-   * time complexity = O(n) / Linear
-   */
+     * 从父亲节点中删除当前节点
+     * time complexity = O(n) / Linear
+     */
     public removeFromParent(): void {
         let index = this.getIndexInParent();
 
@@ -200,31 +220,33 @@ export class TreeMap {
     }
 
     /**
-   * 移动到某个位置
-   * time complexity = O(1) / Linear
-   * @param   {Number} toIndex 需要移动到的位置
-   * @returns {Void}
-   */
+     * 移动到某个位置
+     * time complexity = O(1) / Linear
+     * @param   {Number} toIndex 需要移动到的位置
+     * @returns {Void}
+     */
     public insertToFromParent(toIndex: number): void {
         let curIndex = this.getIndexInParent();
-        let offset = toIndex > curIndex && false ? 1 : 0;
-        let splitIndex = toIndex;
+        // let offset = toIndex > curIndex && false ? 1 : 0;
+        // let splitIndex = toIndex;
 
         // 如果没有父亲，或者父亲没有子节点，或者当前位置小于0
         if (!this.parent || !this.parent.children || curIndex < 0) {
             return;
         }
 
-        // 如果超出了父亲的子节点数量，添加一个
-        if (this.parent.children.length <= toIndex) {
-            this.parent.addChild([ toIndex ]);
-        }
-
         // 父亲节点中删除当前元素
         this.removeFromParent();
+
+        // 如果超出了父亲的子节点数量，添加一个
+        if (this.parent.children.length <= toIndex) {
+            // this.parent.addChild([toIndex]);
+            this.parent.children[toIndex] = this;
+            return;
+        }
+
         // 将当前节点插入到制定的位置
-        // tslint:disable-next-line:max-line-length
-        this.parent.children = this.parent.children.concat([]).splice(0, splitIndex - offset).concat([ this ]).concat(this.parent.children.splice(splitIndex - offset));
+        this.parent.children.splice(toIndex, 0, this);
     }
 
     /**

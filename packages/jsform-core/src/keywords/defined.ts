@@ -1,6 +1,6 @@
-import { JSONSchema6 } from "json-schema";
+import {JSONSchema6} from "json-schema";
 
-import { resolve } from "../libs/resolve";
+import {resolve} from "../libs/resolve";
 
 /**
  * 解析schema中的关键字 definitions
@@ -9,7 +9,7 @@ import { resolve } from "../libs/resolve";
  * @param  {JSONSchema6} schema 当前的schema
  * @return {JSONSchema6}        处理过后的schema
  */
-export default (_$id: string, schema: JSONSchema6): JSONSchema6 => {
+const defined = (_$id: string, schema: JSONSchema6): JSONSchema6 => {
     const definitions = schema.definitions;
 
     if (!definitions) {
@@ -29,3 +29,5 @@ export default (_$id: string, schema: JSONSchema6): JSONSchema6 => {
 
     return schema;
 };
+
+export default defined;

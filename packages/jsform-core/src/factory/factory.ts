@@ -5,7 +5,7 @@ import {FxJsonSchema} from "../models/jsonschema";
 
 /**
  * 存放解析后的schema
- * {
+ * @example {
  *  "test1#": {
  *      $id: "test1",
  *      type: "object",

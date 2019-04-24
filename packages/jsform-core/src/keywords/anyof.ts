@@ -2,7 +2,6 @@ import {JSONSchema6, JSONSchema6Definition} from "json-schema";
 
 import {resolve, getSchemaId} from "../libs/resolve";
 import {isArray} from "util";
-// import MergeLib from "../libs/merge";
 
 /**
  * 解析schema中的关键字 oneOf
@@ -11,7 +10,7 @@ import {isArray} from "util";
  * @param  {JSONSchema6} schema 当前的schema
  * @return {JSONSchema6}        处理过后的schema
  */
-export default ($id: string, schema: JSONSchema6): JSONSchema6 => {
+const anyOf = ($id: string, schema: JSONSchema6): JSONSchema6 => {
     const anyOf = schema.anyOf;
 
     if (anyOf && isArray(anyOf)) {
@@ -22,3 +21,5 @@ export default ($id: string, schema: JSONSchema6): JSONSchema6 => {
 
     return schema;
 };
+
+export default anyOf;
