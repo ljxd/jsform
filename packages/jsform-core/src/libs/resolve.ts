@@ -57,6 +57,11 @@ const getSchemaId = (schemaKey: string): string => {
         return "";
     }
 
+    // if(!regexp.test(keys[0])){
+    //     invariant(false, `can not find schemaId`);
+    //     return "";
+    // }
+
     return keys[0].replace(regexp, "");
 };
 
