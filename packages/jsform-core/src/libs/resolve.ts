@@ -108,7 +108,7 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
 
     // 这里调用相对应的type的方法，来解析schema
     if (schemaTypeFactory.has(type)) {
-        schemaGenera = schemaTypeFactory.get(type)($id || (schema.$id || "") + "#", schema);
+        schemaGenera = schemaTypeFactory.get(type)(id, schema);
     }
 
     return schemaGenera;
@@ -121,15 +121,9 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
  * @param $id 
  */
 const resolve = (schema: JSONSchema6, $id = "") => {
-    let schemaGenera = schema;
-
-    // 验证schema的完整性
-    if (!$id) {
-        schemaGenera = initSchema(schemaGenera);
-    }
-
-    // 生成map
-    return compileSchema($id || schema.$ref || "", schemaGenera);
+    const schemaGenera = $id ? schema : initSchema(schema);
+    const id = $id || schema.$ref || "";
+    return compileSchema(id, schemaGenera);
 }
 
 export {
