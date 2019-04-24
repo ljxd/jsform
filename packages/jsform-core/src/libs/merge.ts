@@ -1,9 +1,9 @@
 import invariant from "invariant";
 
-import {UiSchema} from "../models/uischema";
-import {schemaFieldFactory, schemaKeysFactory} from "../factory";
-import {getDataKeys, getSchemaId} from "./resolve";
-import {FxJsonSchema} from "../models/jsonschema";
+import { UiSchema } from "../models/uischema";
+import { schemaFieldFactory, schemaKeysFactory } from "../factory";
+import { getDataKeysBySchemaKeys, getSchemaId } from "./resolve";
+import { FxJsonSchema } from "../models/jsonschema";
 // import {warn, isProd} from "../utils";
 
 /**
@@ -18,7 +18,7 @@ import {FxJsonSchema} from "../models/jsonschema";
 * @return {String}                     返回的key
 */
 const getUiSchemaKeyRecursion = (uiSchemaKeys: string[], parentSchemaPath: string): string => {
-    let parentKeysWithDef = getDataKeys(parentSchemaPath, true);
+    let parentKeysWithDef = getDataKeysBySchemaKeys(parentSchemaPath, true);
 
     while (uiSchemaKeys.length) {
         const key: string = uiSchemaKeys.shift() || "";
@@ -41,7 +41,7 @@ const getUiSchemaKeyRecursion = (uiSchemaKeys: string[], parentSchemaPath: strin
         const schema: FxJsonSchema = schemaFieldFactory.get(schemaKeysFactory.get(keysStr));
 
         if (schema.$ref) {
-            parentKeysWithDef = getDataKeys(schema.$ref, true);
+            parentKeysWithDef = getDataKeysBySchemaKeys(schema.$ref, true);
         }
         // else {
         //     parentKeysWithDef = parentKeysWithDef;
@@ -81,8 +81,8 @@ const getCurrentSchemaKey = (parent: UiSchema | undefined, schemaPath: string, u
         return getUiSchemaKeyRecursion(uiSchemaKeys, parent.schemaPath || "");
     }
 
-    // const keys = getDataKeys(schemaPath, true);
-    // console.log("计算得出的keys", $id, schemaPath, getDataKeys(schemaPath), getDataKeys(schemaPath, true));
+    // const keys = getDataKeysBySchemaKeys(schemaPath, true);
+    // console.log("计算得出的keys", $id, schemaPath, getDataKeysBySchemaKeys(schemaPath), getDataKeysBySchemaKeys(schemaPath, true));
 
     // keys.pop();
 
@@ -146,7 +146,7 @@ const initUiSchema = (parent: UiSchema | undefined, schemaPath: string, uiSchema
         }
     }
 
-    return Object.assign({isRequired}, originSchema, uiSchema, {
+    return Object.assign({ isRequired }, originSchema, uiSchema, {
         key,
         keys
     });
@@ -207,7 +207,7 @@ const initMergeSchema = (parent: UiSchema | undefined, schemaPath: string, uiSch
     // 不存在*号的情况
     if (idx < 0) {
         uiSchemas.slice(idx + 1).map((us: string | UiSchema) => {
-            let uiSchema = initUiSchema(parent, schemaPath, us.constructor === String ? {key: us} as UiSchema : us as UiSchema);
+            let uiSchema = initUiSchema(parent, schemaPath, us.constructor === String ? { key: us } as UiSchema : us as UiSchema);
 
             uiSchemasFirst.push(mergeUiSchemaToArray(uiSchema));
         });
@@ -217,14 +217,14 @@ const initMergeSchema = (parent: UiSchema | undefined, schemaPath: string, uiSch
 
     // 处理*之前的数据
     uiSchemas.slice(0, idx).forEach((us: string | UiSchema) => {
-        let uiSchema = initUiSchema(parent, curSchema.schemaPath || schemaPath, us.constructor === String ? {key: us} as UiSchema : us as UiSchema);
+        let uiSchema = initUiSchema(parent, curSchema.schemaPath || schemaPath, us.constructor === String ? { key: us } as UiSchema : us as UiSchema);
 
         uiSchemasFirst.push(mergeUiSchemaToArray(uiSchema));
     });
 
     // 处理*之后的数据
     uiSchemas.slice(idx + 1).forEach((us: string | UiSchema) => {
-        let uiSchema = initUiSchema(parent, curSchema.schemaPath || schemaPath, us.constructor === String ? {key: us} as UiSchema : us as UiSchema);
+        let uiSchema = initUiSchema(parent, curSchema.schemaPath || schemaPath, us.constructor === String ? { key: us } as UiSchema : us as UiSchema);
 
         uiSchemasLast.push(mergeUiSchemaToArray(uiSchema));
     });
@@ -253,7 +253,7 @@ const initMergeSchema = (parent: UiSchema | undefined, schemaPath: string, uiSch
     // 是普通对象
     if (types.indexOf(curSchema.type as string) < 0) {
         let uiSchema = initUiSchema(parent, schemaPath, {
-            key: getDataKeys(curSchema.schemaPath || "", false).join("/")
+            key: getDataKeysBySchemaKeys(curSchema.schemaPath || "", false).join("/")
         });
 
         pushMergeResult(uiSchemasFirst, uiSchemasLast, uiSchema);
@@ -272,7 +272,7 @@ export const merge = (schemaPath: string, parent?: UiSchema, uiSchemas?: Array<U
     uiSchemas = uiSchemas || ["*"];
 
     // 获取schemaPath对应的schemaId
-    let keyPath: string = getDataKeys(schemaPath, true).join("/");
+    let keyPath: string = getDataKeysBySchemaKeys(schemaPath, true).join("/");
 
     // 如果keyPath还没有解析，则报错
     if (!schemaKeysFactory.has(keyPath)) {

@@ -2,11 +2,9 @@ import { JSONSchema6 } from "json-schema";
 import invariant from "invariant";
 
 import { schemaTypeFactory } from "../factory";
-// import {warn, isProd} from "../utils";
-// import invariant from "invariant";
 
 /**
-* 解析path成成数据的路径
+* schema路径解析
 * 最终schema需要与uiSchema做合并，uiSchema中的key配置的是数组 ["appType', '-','type']，所以需要做一下转换
 * 1. 去掉properties，items关键字转换成【 - 】
 * 2. 第一个字符去掉末尾的【 # 】
@@ -14,13 +12,12 @@ import { schemaTypeFactory } from "../factory";
 * @example design#/properties/appType/type => ["appType','type']
 * @example design#/properties/appType/items/properties/type => ["appType', '-', 'type']
 * @param {String}   schemaKey schema的path
-* @param {Boolean}  keepFirst 是否需要保留第一个
+* @param {Boolean}  keepFirst 是否需要保留schemaId
 */
-export const getDataKeys = (schemaKey: string, keepFirst = false): string[] => {
-    // let removeNextKey = false;
-    let keys = schemaKey.split("/").map((key: string, index: number) => {
-        const regexp = /#$/g;
+const getDataKeysBySchemaKeys = (schemaKey: string, keepFirst = false): string[] => {
+    const regexp = /#$/g;
 
+    return schemaKey.split("/").map((key: string, index: number) => {
         // 第一个替换末尾的#
         if (index === 0 && regexp.test(key)) {
             // 这里是regexp的陷阱,需要修改lastIndex = 0
@@ -42,10 +39,7 @@ export const getDataKeys = (schemaKey: string, keepFirst = false): string[] => {
         }
 
         return key;
-    });
-
-    // 提取其中不为空的项
-    return keys.filter((key: string | null) => {
+    }).filter((key: string | null) => {
         return key !== null;
     }) as string[];
 };
@@ -54,7 +48,7 @@ export const getDataKeys = (schemaKey: string, keepFirst = false): string[] => {
 * 从schemaPath中获取$id
 * @param {String} schemaKey 当前schema的path
 */
-export const getSchemaId = (schemaKey: string): string => {
+const getSchemaId = (schemaKey: string): string => {
     const keys = schemaKey.split("/");
     const regexp = /#$/g;
 
@@ -80,13 +74,7 @@ const initSchema = (schema: JSONSchema6): JSONSchema6 => {
 
     // 如果没有$id, 同时没有$ref的情况下直接报错
     if (!$id && !schema.$ref) {
-        // if (!isProd) {
-        //     // throw new Error(`id is required.`);
-        //     warn("id is required");
-        // }
-
         invariant(false, "id is required");
-
         return schema;
     }
 
@@ -94,6 +82,7 @@ const initSchema = (schema: JSONSchema6): JSONSchema6 => {
 }
 
 /**
+ * TODO
  * 遍历schema，生成map
  * 1. 如果schema.type不是string，报错
  * 2. 调用【schemaTypeFactory
@@ -101,9 +90,8 @@ const initSchema = (schema: JSONSchema6): JSONSchema6 => {
  * @param {String}      $id     id
  */
 const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
-    let schemaGenera = schemaTypeFactory.get("undefined")($id || (schema.$id || "") + "#", schema);
-
-    schemaGenera = schema;
+    const id = $id || (schema.$id || "") + "#";
+    let schemaGenera = schemaTypeFactory.get("undefined")(id, schema);
 
     // 如果不存在type，则直接返回
     if (!schema.type || schema.$ref) {
@@ -112,13 +100,7 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
 
     // 这里只解析type为字符串的结构，不支持数组类型的type
     if (schema.type.constructor !== String) {
-        // if (!isProd) {
-        //     warn(`schema type[${schema.type}] can only be string.`);
-        //     // throw new Error(`schema type[${schema.type}] can only be string.`);
-        // }
-
         invariant(`schema type[${schema.type}] can only be string.`);
-
         return schemaGenera;
     }
 
@@ -132,7 +114,13 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
     return schemaGenera;
 }
 
-export const resolve = (schema: JSONSchema6, $id = "") => {
+/**
+ * TODO
+ * 解析schema
+ * @param schema 
+ * @param $id 
+ */
+const resolve = (schema: JSONSchema6, $id = "") => {
     let schemaGenera = schema;
 
     // 验证schema的完整性
@@ -142,4 +130,10 @@ export const resolve = (schema: JSONSchema6, $id = "") => {
 
     // 生成map
     return compileSchema($id || schema.$ref || "", schemaGenera);
+}
+
+export {
+    getDataKeysBySchemaKeys,
+    getSchemaId,
+    resolve
 }

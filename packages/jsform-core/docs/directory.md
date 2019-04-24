@@ -34,10 +34,10 @@
 - oneof
 - ref
 
-> 3. libs：TODO
+> 3. libs：类库
 - factory 工厂类库
 - merge
-- resolve
+- resolve 解析schema
 - tree 树类库
 
 > 4. models：TODO

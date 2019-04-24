@@ -1,9 +1,9 @@
-import {JSONSchema6} from "json-schema";
+import { JSONSchema6 } from "json-schema";
 import invariant from "invariant";
 
-import {getDataKeys, getSchemaId} from "../libs/resolve";
-import {schemaFieldFactory} from "../factory";
-import {FxJsonSchema} from "../models/jsonschema";
+import { getDataKeysBySchemaKeys, getSchemaId } from "../libs/resolve";
+import { schemaFieldFactory } from "../factory";
+import { FxJsonSchema } from "../models/jsonschema";
 
 /**
  * 解析schema中的关键字 $ref
@@ -40,7 +40,7 @@ export default ($id: string, schema: JSONSchema6) => {
 
             Reflect.deleteProperty(schemaAjv, "$id");
             Object.assign(schemaAjv, {
-                refKeys: getDataKeys(refName)
+                refKeys: getDataKeysBySchemaKeys(refName)
             });
 
             return schemaAjv;

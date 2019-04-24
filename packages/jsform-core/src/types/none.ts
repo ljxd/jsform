@@ -1,7 +1,7 @@
-import {JSONSchema6} from "json-schema";
+import { JSONSchema6 } from "json-schema";
 
-import {schemaFieldFactory, schemaKeysFactory, schemaKeyWordFactory} from "../factory";
-import {getDataKeys, getSchemaId} from "../libs/resolve";
+import { schemaFieldFactory, schemaKeysFactory, schemaKeyWordFactory } from "../factory";
+import { getDataKeysBySchemaKeys, getSchemaId } from "../libs/resolve";
 
 
 /**
@@ -26,8 +26,8 @@ export const convertKeys = ($id: string, schema: JSONSchema6): JSONSchema6 => {
  * @param  {String}      schemaKey 当前的schemaKey
  * @return {JSONSchema6}           返回处理过后的schema
  */
-export default ( schemaKey: string,schema: JSONSchema6) => {
-    let keys: string[] = getDataKeys(schemaKey, false),
+export default (schemaKey: string, schema: JSONSchema6) => {
+    let keys: string[] = getDataKeysBySchemaKeys(schemaKey, false),
         $id = getSchemaId(schemaKey),
         currentSchema = convertKeys(schemaKey, schema),
         alreadyHasEmptySchema = false,
