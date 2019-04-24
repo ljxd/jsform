@@ -58,6 +58,15 @@ export const isNumber = (n: any): boolean => {
 };
 
 /**
+ * 判断参数是不是字符串
+ * @param   {Any}      n    需要验证的参数
+ * @returns {Boolean}
+ */
+export const isString = (n: any): boolean => {
+	return typeOf(n) === "string";
+};
+
+/**
  * 判断参数是不是boolean
  * @param   {Any}      n    需要验证的参数
  * @returns {Boolean}

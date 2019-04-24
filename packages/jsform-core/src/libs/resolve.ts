@@ -1,8 +1,8 @@
-import {JSONSchema6} from "json-schema";
+import { JSONSchema6 } from "json-schema";
 import invariant from "invariant";
 
 import {schemaTypeFactory} from "../factory";
-import {isString} from "util";
+import {isString} from "../utils";
 
 /**
 * schema路径解析
