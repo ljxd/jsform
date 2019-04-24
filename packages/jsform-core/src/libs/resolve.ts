@@ -1,7 +1,7 @@
-import { JSONSchema6 } from "json-schema";
+import {JSONSchema6} from "json-schema";
 import invariant from "invariant";
 
-import { schemaTypeFactory } from "../factory";
+import {schemaTypeFactory} from "../factory";
 
 /**
 * schema路径解析
@@ -56,6 +56,11 @@ const getSchemaId = (schemaKey: string): string => {
         invariant(false, `${schemaKey} not a valid schemaPath.`);
         return "";
     }
+
+    // if(!regexp.test(keys[0])){
+    //     invariant(false, `can not find schemaId`);
+    //     return "";
+    // }
 
     return keys[0].replace(regexp, "");
 };
@@ -121,15 +126,11 @@ const compileSchema = ($id: string, schema: JSONSchema6): JSONSchema6 => {
  * @param $id 
  */
 const resolve = (schema: JSONSchema6, $id = "") => {
-    let schemaGenera = schema;
-
-    // 验证schema的完整性
-    if (!$id) {
-        schemaGenera = initSchema(schemaGenera);
-    }
-
+    const schemaGenera = !$id ? initSchema(schema) : schema;
+    const id = $id || schema.$ref || "";
+    
     // 生成map
-    return compileSchema($id || schema.$ref || "", schemaGenera);
+    return compileSchema(id, schemaGenera);
 }
 
 export {
