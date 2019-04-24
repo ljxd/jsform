@@ -1,4 +1,4 @@
-import {isNumber} from "../utils";
+import { isNumber } from "../utils";
 
 export type Tsn = string | number;
 
@@ -11,22 +11,20 @@ export class TreeMap {
     public children: TreeMap[] = [];
 
     /**
-   * 构造函数
-   * @param   {String}  key    当前节点的key，用于计算位置
-   * @param   {any}     value  当前节点的值
-   * @param   {TreeMap} parent 当前节点的父亲节点
-   * @returns {Void}
-   */
-    constructor(private key: string, public value: any, public readonly parent?: TreeMap) {}
+      * 构造函数
+      * @param   {String}  key    当前节点的key
+      * @param   {any}     value  当前节点的值
+      * @param   {TreeMap} parent 当前节点的父亲节点
+      * @returns {Void}
+      */
+    constructor(private key: string, public value: any, public readonly parent?: TreeMap) { }
 
     /**
-   * 添加一个孩子元素
-   * 这里需要构建一颗完整的树，所以要遍历keys来动态创建节点
-   * time complexity = O(1) / Constant
-   * @param    {Array<Tsn>} keys  节点的路径 example ["root","b"]  root -> b
-   * @param    {any}        value 孩子的数据
-   * @returns  {TreeMap}
-   */
+    * 添加一个子元素
+    * @param    {Array<Tsn>} keys  节点的路径，遍历keys来动态创建节点 example ["root","b"]  root -> b
+    * @param    {any}        value 孩子的数据
+    * @returns  {TreeMap}
+    */
     public addChild(keys: Array<Tsn>, value?: any): TreeMap {
         let curNode: TreeMap = this;
         let child: TreeMap | null = null;
@@ -43,7 +41,6 @@ export class TreeMap {
 
             child = curNode.contains(key);
 
-            // 这里需要做一下特殊处理
             // 如果是数字的话，则说明是数组，key改成`-`
             // 如果不是数组的话，则无所谓顺序，直接push就行
             // 如果是数组，则要保证顺序和数据的下标一致
@@ -97,10 +94,10 @@ export class TreeMap {
     }
 
     /**
-   * 获取当前节点在父亲children中的下标索引
-   * time complexity = O(1) / Constant
-   * @returns {number}
-   */
+    * 获取当前节点在父节点中的下标索引
+    * time complexity = O(1) / Constant
+    * @returns {number}
+    */
     public getIndexInParent(): number {
         let index = -1;
 
@@ -108,7 +105,7 @@ export class TreeMap {
             return index;
         }
 
-        const {children} = this.parent;
+        const { children } = this.parent;
 
         for (let i = 0, n = children.length; i < n; i++) {
             const child = children[i];
@@ -123,11 +120,11 @@ export class TreeMap {
     }
 
     /**
-   * 从当前节点查找是否存在节点
-   * time complexity = O(n) / Linear
-   * @param   {Tsn}     key 节点的数据
-   * @returns {TreeMap}
-   */
+    * 从当前节点查找是否存在节点
+    * time complexity = O(n) / Linear
+    * @param   {Tsn}     key 节点的数据
+    * @returns {TreeMap}
+    */
     public contains(key: Tsn): TreeMap | null {
         // 如果是数字的话，直接返回children中对应下标的元素
         if (isNumber(key)) {
@@ -168,17 +165,13 @@ export class TreeMap {
     }
 
     /**
-   * 根据给定的路径数组，返回对应的节点
-   * time complexity = O(n) / Linear
-   * @param   {Array<Tsn>}    keys路径
-   * @returns {TreeMap | null}
-   */
+    * 根据给定的路径数组，返回对应的节点
+    * time complexity = O(n) / Linear
+    * @param   {Array<Tsn>}    keys路径
+    * @returns {TreeMap | null}
+    */
     public containPath(keys: Array<Tsn>): TreeMap | null {
         let node: TreeMap | null = this;
-
-        // if (!node) {
-        //     return node;
-        // }
 
         for (const key of keys) {
             node = node.contains(key);
@@ -189,28 +182,12 @@ export class TreeMap {
         }
 
         return node;
-
-        // // TODO 代码优化
-        // keys.forEach((key: Tsn) => {
-        //     if (!node) {
-        //         return null;
-        //     }
-        //     node = node.contains(key);
-
-        //     if (!node) {
-        //         return null;
-        //     }
-
-        //     return null;
-        // });
-
-        // return node;
     }
 
     /**
-     * 从父亲节点中删除当前节点
-     * time complexity = O(n) / Linear
-     */
+    * 从父亲节点中删除当前节点
+    * time complexity = O(n) / Linear
+    */
     public removeFromParent(): void {
         let index = this.getIndexInParent();
 
@@ -220,15 +197,13 @@ export class TreeMap {
     }
 
     /**
-     * 移动到某个位置
-     * time complexity = O(1) / Linear
-     * @param   {Number} toIndex 需要移动到的位置
-     * @returns {Void}
-     */
+    * 移动到某个位置
+    * time complexity = O(1) / Linear
+    * @param   {Number} toIndex 需要移动到的位置
+    * @returns {Void}
+    */
     public insertToFromParent(toIndex: number): void {
         let curIndex = this.getIndexInParent();
-        // let offset = toIndex > curIndex && false ? 1 : 0;
-        // let splitIndex = toIndex;
 
         // 如果没有父亲，或者父亲没有子节点，或者当前位置小于0
         if (!this.parent || !this.parent.children || curIndex < 0) {
@@ -240,7 +215,6 @@ export class TreeMap {
 
         // 如果超出了父亲的子节点数量，添加一个
         if (this.parent.children.length <= toIndex) {
-            // this.parent.addChild([toIndex]);
             this.parent.children[toIndex] = this;
             return;
         }
@@ -250,11 +224,11 @@ export class TreeMap {
     }
 
     /**
-   * 遍历指定节点下所有子节点的value数据,当前节点不计算在内
-   * @param   {(node: TreeMap) => any}     clearFunc      map方法
-   * @param   {Boolean}                    currentNode    是否包含当前节点
-   * @returns {Void}
-   */
+    * 遍历指定节点下所有子节点的value数据,当前节点不计算在内
+    * @param   {(node: TreeMap) => any}     clearFunc      map方法
+    * @param   {Boolean}                    currentNode    是否包含当前节点
+    * @returns {Void}
+    */
     public forEach(clearFunc: (node: TreeMap) => any, currentNode = false) {
         if (currentNode) {
             this.value = clearFunc(this);
@@ -271,4 +245,7 @@ export class TreeMap {
             }
         }
     }
+
+
 }
+
