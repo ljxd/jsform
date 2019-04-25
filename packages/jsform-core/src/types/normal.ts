@@ -28,7 +28,7 @@ export const convertKeys = ($id: string, schema: JSONSchema6): JSONSchema6 => {
  */
 export default (schemaKey: string, schema: JSONSchema6) => {
     let keys: string[] = getDataKeysBySchemaKeys(schemaKey, false),
-        $id = getSchemaId(schemaKey),
+        $id = getSchemaId(schemaKey) || schema.$id || "",
         currentSchema = convertKeys(schemaKey, schema),
         alreadyHasEmptySchema = false,
         emptySchema: any = {};
@@ -42,10 +42,6 @@ export default (schemaKey: string, schema: JSONSchema6) => {
     // 如果已经存在，则直接返回
     if (alreadyHasEmptySchema && emptySchema.schemaPath) {
         return currentSchema || schema;
-    }
-
-    if (!$id) {
-        $id = schema.$id || "";
     }
 
     if (schema.$id && schema.$ref) {
