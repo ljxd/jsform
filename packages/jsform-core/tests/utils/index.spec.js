@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { isArray, isNumber, mergeKeys, typeOf } from "../../out/utils/index";
+import { isArray, isNumber, isString, mergeKeys, typeOf } from "../../out/utils/index";
 
 describe("工具方法测试用例", () => {
     it("isArray", () => {
@@ -13,6 +13,20 @@ describe("工具方法测试用例", () => {
         expect(isArray({})).eq(false);
         expect(isArray(null)).eq(false);
         expect(isArray(undefined)).eq(false);
+    });
+
+    it("isString", () => {
+        expect(isString).to.be.a("function");
+
+        expect(isString("")).eq(true);
+        expect(isString([])).eq(false);
+        expect(isString()).eq(false);
+        expect(isString([ 1, 2, 3 ])).eq(false);
+        expect(isString(1)).eq(false);
+        expect(isString(true)).eq(false);
+        expect(isString({})).eq(false);
+        expect(isString(null)).eq(false);
+        expect(isString(undefined)).eq(false);
     });
 
     it("typeOf", () => {

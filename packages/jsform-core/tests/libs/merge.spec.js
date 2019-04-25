@@ -1,5 +1,7 @@
 import { assert, expect } from "chai";
-import { schemaTypeFactory, schemaFieldFactory, schemaKeysFactory, resolve, merge } from "../../dist/index.dev";
+
+import { resolve, schemaFieldFactory, schemaKeysFactory } from "../../out/index";
+import { merge } from "../../out/libs/merge";
 
 describe("测试merge文件", () => {
     before(() => {
@@ -139,10 +141,13 @@ describe("测试merge文件", () => {
             {
                 key: "dsModelIds",
                 title: "测试Title"
-            }
+            },
+            "*",
+            "name"
         ]);
 
         expect(merged[1].title).to.equal("测试Title");
+        expect(merged[0].schemaPath).eq(merged[merged.length-1].schemaPath);
     });
 
     it("schema取一个数组字段", () => {

@@ -1,6 +1,7 @@
 import {JSONSchema6} from "json-schema";
 
 import {resolve} from "../libs/resolve";
+import {isBoolean} from "util";
 
 /**
  * 解析schema中的关键字 definitions
@@ -20,7 +21,7 @@ const defined = (_$id: string, schema: JSONSchema6): JSONSchema6 => {
         if (definitions.hasOwnProperty(key)) {
             const element: JSONSchema6 | boolean = definitions[key];
 
-            if (element !== false && element !== true) {
+            if (!isBoolean(element)) {
                 // tslint:disable-next-line:no-unused-expression
                 resolve(element, `${schema.$id}#/definitions/${key}`);
             }

@@ -1,5 +1,6 @@
 import { assert, expect } from "chai";
-import { schemaTypeFactory, schemaFieldFactory, schemaKeysFactory, resolve } from "../../dist/index.dev";
+
+import { schemaTypeFactory, schemaFieldFactory, schemaKeysFactory, resolve } from "../../out/index";
 
 describe("对象类型的解析", () => {
     let schema, test;

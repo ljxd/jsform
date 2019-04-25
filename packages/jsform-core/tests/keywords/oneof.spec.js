@@ -1,43 +1,44 @@
-import { assert, expect } from "chai";
+import { expect } from "chai";
 
-import { schemaKeyWordFactory, resolve } from "../../dist/index.dev";
+import oneOf from "../../out/keywords/oneof";
 
-describe("key word of oneof", () => {
-    let test1, test, test2;
-
-    before(() => {
-        test1 = resolve({
+describe("key word of oneOf", () => {
+    let testSchema = {},
+        noneAnyOf = {
             $id: "test1",
-            type: "number",
-            title: "测试的schema"
-        });
+            type: "string"
+        };
 
-        test2 = resolve({
-            $id: "test2",
-            type: "string",
-            title: "测试的schema"
-        });
-
-        test = resolve({
+    beforeEach(() => {
+        testSchema = {
             $id: "test",
-            title: "测试oneof的schema",
+            title: "测试schema",
             oneOf: [
                 {
-                    $ref: "test2#"
+                    $id: "number",
+                    type: "number"
                 },
                 {
-                    $ref: "test1#"
+                    type: "string",
+                    $id: "string"
                 }
             ]
-        });
+        };
     });
 
-    it("oneOf中的schema被替换成了正确的schema;数量为2；$ids = [test2,test1]", () => {
-        let schema = schemaKeyWordFactory.get("oneof")("", test);
+    it("解析oneOf关键字", () => {
+        let schema = oneOf("", testSchema);
 
         expect(schema).to.be.a("object");
         expect(schema.oneOf.length).to.equal(2);
-        expect(schema.oneOf[0].$ref).to.equal("test2#");
-        expect(schema.oneOf[1].$ref).to.equal("test1#");
+        expect(schema.oneOf[0].type).to.equal("number");
+        expect(schema.oneOf[1].type).to.equal("string");
+    });
+
+    it("不解析anyOf关键字", () => {
+        let schema = oneOf("", noneAnyOf);
+
+        expect(schema).to.be.a("object");
+        expect(schema.oneOf).to.equal(undefined);
     });
 });

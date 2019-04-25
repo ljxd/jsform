@@ -43,15 +43,15 @@ module.exports = (config) => {
         webpack: {
             mode: "none",
             module: {
-                rules: [
-                    {
-                        test: /\.js$/,
-                        include: path.resolve("dist/"),
-                        use: {
-                            loader: "istanbul-instrumenter-loader"
-                        }
-                    }
-                ],
+                // rules: [
+                //     {
+                //         test: /\.js$/,
+                //         include: path.resolve("dist/"),
+                //         use: {
+                //             loader: "istanbul-instrumenter-loader"
+                //         }
+                //     }
+                // ],
                 rules: [
                     {
                         test: /\.js$/,

@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import anyOf from "../../out/keywords/anyof";
+import { resolve } from "../../out/libs/resolve";
 
 describe("key word of anyOf", () => {
     let testSchema = {},
@@ -24,6 +25,8 @@ describe("key word of anyOf", () => {
                 }
             ]
         };
+
+        // resolve();
     });
 
     it("解析anyOf关键字", () => {
@@ -35,14 +38,14 @@ describe("key word of anyOf", () => {
         expect(schema.anyOf[1].type).to.equal("string");
     });
 
-    // it("解析anyOf关键字", () => {
-    //     let schema = anyOf("$test2", Object.assign(testSchema, { $id: "" }));
+    it("解析anyOf关键字", () => {
+        let schema = anyOf("test2", Object.assign({}, testSchema, { $id: "" }));
 
-    //     expect(schema).to.be.a("object");
-    //     expect(schema.anyOf.length).to.equal(2);
-    //     expect(schema.anyOf[0].type).to.equal("number");
-    //     expect(schema.anyOf[1].type).to.equal("string");
-    // });
+        expect(schema).to.be.a("object");
+        expect(schema.anyOf.length).to.equal(2);
+        expect(schema.anyOf[0].type).to.equal("number");
+        expect(schema.anyOf[1].type).to.equal("string");
+    });
 
     it("不解析anyOf关键字", () => {
         let schema = anyOf("", noneAnyOf);

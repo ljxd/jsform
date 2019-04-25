@@ -1,4 +1,4 @@
-import { JSONSchema6 } from "json-schema";
+import {JSONSchema6} from "json-schema";
 import invariant from "invariant";
 
 import {schemaTypeFactory} from "../factory";
@@ -56,7 +56,7 @@ const getSchemaId = (schemaPath: string): string => {
     const regexp = /#$/g;
 
     if (!keys.length) {
-        invariant(false, `${schemaPath} not a valid schemaPath.`);
+        // invariant(false, `${schemaPath} not a valid schemaPath.`);
         return "";
     }
 
