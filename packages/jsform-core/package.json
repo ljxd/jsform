@@ -1,35 +1,35 @@
 {
-    "name": "jsform-core",
-    "version": "1.0.0",
-    "description": "",
-    "main": "dist/index.prd.js",
-    "types": "dist/index.d.ts",
-    "directories": {
-        "doc": "docs",
-        "test": "tests"
-    },
-    "scripts": {
-        "test": "mocha ./tests/**/*.spec.js --require babel-register --watch",
-        "dev": "NODE_ENV=development webpack --config=webpack/webpack.dev.config.js --watch",
-        "prod": "NODE_ENV=production webpack --config=webpack/webpack.prod.config.js",
-        "build": "npm run prod;npm run tsdoc;",
-        "tree": "tree -L 3 -I  'node_modules'",
-        "out": "tsc -d -w --outDir out",
-        "tsdoc": "typedoc --out docz src",
-        "karma": "karma start karma.conf.js"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "@babel/core": "^7.4.3",
-        "@types/invariant": "^2.2.29",
-        "@types/json-schema": "^7.0.3",
-        "@types/node": "^11.13.6",
-        "babel-loader": "^8.0.5",
-        "ts-loader": "^5.4.3"
-    },
-    "dependencies": {
-        "invariant": "^2.2.4",
-        "tslib": "^1.9.3"
-    }
+  "name": "jsform-core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.prd.js",
+  "types": "dist/index.d.ts",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "mocha ./tests/**/*.spec.js --require babel-register --watch",
+    "dev": "NODE_ENV=development webpack --config=webpack/webpack.dev.config.js --watch",
+    "prod": "NODE_ENV=production webpack --config=webpack/webpack.prod.config.js",
+    "build": "npm run prod;npm run tsdoc;",
+    "tree": "tree -L 3 -I  'node_modules'",
+    "out": "tsc -d -w --outDir out",
+    "tsdoc": "typedoc --out docz src",
+    "karma": "karma start karma.conf.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@types/invariant": "^2.2.29",
+    "@types/json-schema": "^7.0.3",
+    "@types/node": "^11.13.6",
+    "babel-loader": "^8.0.5",
+    "ts-loader": "^5.4.3"
+  },
+  "dependencies": {
+    "invariant": "^2.2.4",
+    "tslib": "^1.9.3"
+  }
 }
