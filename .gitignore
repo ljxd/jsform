@@ -5,3 +5,4 @@ packages/**/coverage
 packages/**/out
 packages/**/package-lock.json
 .package-lock.json
+lerna-debug.log
