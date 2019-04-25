@@ -7,27 +7,27 @@ export type Tsn = string | number;
  * 这里用来记录数据的元数据信息
  * 元数据信息包括，isValid，isLoading，isShow，...etc
  */
-export class TreeMap {
-    public children: TreeMap[] = [];
+export class TreeMap<T> {
+    public children: TreeMap<T>[] = [];
 
     /**
       * 构造函数
       * @param   {String}  key    当前节点的key
       * @param   {any}     value  当前节点的值
-      * @param   {TreeMap} parent 当前节点的父亲节点
+      * @param   {TreeMap<T>} parent 当前节点的父亲节点
       * @returns {Void}
       */
-    constructor(private key: string, public value: any, public readonly parent?: TreeMap) {}
+    constructor(private key: string, public value: any, public readonly parent?: TreeMap<T>) {}
 
     /**
     * 添加一个子元素
     * @param    {Array<Tsn>} keys  节点的路径，遍历keys来动态创建节点 example ["root","b"]  root -> b
     * @param    {any}        value 孩子的数据
-    * @returns  {TreeMap}
+    * @returns  {TreeMap<T>}
     */
-    public addChild(keys: Array<Tsn>, value?: any): TreeMap {
-        let curNode: TreeMap = this;
-        let child: TreeMap | null = null;
+    public addChild(keys: Array<Tsn>, value?: any): TreeMap<T> {
+        let curNode: TreeMap<T> = this;
+        let child: TreeMap<T> | null = null;
 
         if (!keys.length) {
             return this;
@@ -41,10 +41,10 @@ export class TreeMap {
             // 如果是数组，则要保证顺序和数据的下标一致
             if (!child) {
                 if (isNumber(key)) {
-                    child = new TreeMap("-", null, curNode);
+                    child = new TreeMap<T>("-", null, curNode);
                     curNode.children[key as number] = child;
                 } else {
-                    child = new TreeMap(key.toString(), null, curNode);
+                    child = new TreeMap<T>(key.toString(), null, curNode);
                     curNode.children.push(child);
                 }
             }
@@ -53,10 +53,10 @@ export class TreeMap {
         }
 
         // if (child) {
-        (child as TreeMap).value = value;
+        (child as TreeMap<T>).value = value;
         // }
 
-        return child as TreeMap;
+        return child as TreeMap<T>;
     }
 
     /**
@@ -118,9 +118,9 @@ export class TreeMap {
     * 从当前节点查找是否存在节点
     * time complexity = O(n) / Linear
     * @param   {Tsn}     key 节点的数据
-    * @returns {TreeMap}
+    * @returns {TreeMap<T>}
     */
-    public contains(key: Tsn): TreeMap | null {
+    public contains(key: Tsn): TreeMap<T> | null {
         // 如果是数字的话，直接返回children中对应下标的元素
         if (isNumber(key)) {
             if (this.children.length <= key) {
@@ -130,7 +130,7 @@ export class TreeMap {
             let child = this.children[key as number];
 
             if (!child) {
-                this.children[key as number] = new TreeMap("-", null, this);
+                this.children[key as number] = new TreeMap<T>("-", null, this);
 
                 child = this.children[key as number];
             }
@@ -163,10 +163,10 @@ export class TreeMap {
     * 根据给定的路径数组，返回对应的节点
     * time complexity = O(n) / Linear
     * @param   {Array<Tsn>}    keys路径
-    * @returns {TreeMap | null}
+    * @returns {TreeMap<T> | null}
     */
-    public containPath(keys: Array<Tsn>): TreeMap | null {
-        let node: TreeMap | null = this;
+    public containPath(keys: Array<Tsn>): TreeMap<T> | null {
+        let node: TreeMap<T> | null = this;
 
         for (const key of keys) {
             node = node.contains(key);
@@ -216,17 +216,17 @@ export class TreeMap {
             return;
         }
 
-        // 将当前节点插入到制定的位置
+        // 将当前节点插入到指定的位置
         this.parent.children.splice(toIndex, 0, this);
     }
 
     /**
     * 遍历指定节点下所有子节点的value数据,当前节点不计算在内
-    * @param   {(node: TreeMap) => any}     clearFunc      map方法
+    * @param   {(node: TreeMap<T>) => any}     clearFunc      map方法
     * @param   {Boolean}                    currentNode    是否包含当前节点
     * @returns {Void}
     */
-    public forEach(clearFunc: (node: TreeMap) => any, currentNode = false) {
+    public forEach(clearFunc: (node: TreeMap<T>) => any, currentNode = false) {
         if (currentNode) {
             this.value = clearFunc(this);
         }
@@ -244,7 +244,4 @@ export class TreeMap {
             }
         }
     }
-
-
 }
-

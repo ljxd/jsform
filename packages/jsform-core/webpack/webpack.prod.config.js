@@ -1,6 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
+// const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const env = process.env.NODE_ENV || "none";
 
 module.exports = {
@@ -19,8 +19,6 @@ module.exports = {
         "process.env": {
             "NODE_ENV": JSON.stringify(env),
         }
-    }), new UglifyJsPlugin({
-        sourceMap: true
     })],
     mode:"production",
     output: {
