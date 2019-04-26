@@ -1,9 +1,9 @@
 {
   "name": "jsform-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "dist/index.prd.js",
-  "types": "dist/index.d.ts",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
   "directories": {
     "doc": "docs",
     "test": "tests"
@@ -26,6 +26,7 @@
     "@types/json-schema": "^7.0.3",
     "@types/node": "^11.13.6",
     "babel-loader": "^8.0.5",
+    "babel-register": "^6.26.0",
     "ts-loader": "^5.4.3"
   },
   "dependencies": {
